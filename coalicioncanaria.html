@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabajo Geografía: Coalición Canaria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .color-primario { color: #0055a4; }
+        .bg-primario { background-color: #0055a4; }
+        .borde-canario { border-color: #ffed00; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans">
+
+    <nav class="bg-white shadow-sm p-4 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold color-primario">Proyecto de Geografía: Coalición Canaria</h1>
+            <span class="text-xs font-semibold bg-gray-200 px-3 py-1 rounded text-gray-600">CURSO 3 ESO</span>
+        </div>
+    </nav>
+
+    <header class="bg-primario text-white py-16 px-4 text-center">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-4">Defensa del Archipiélago Canario</h2>
+            <p class="text-lg opacity-90">Coalición Canaria es una formación política que centra su actividad exclusivamente en las ocho islas, buscando soluciones a los problemas derivados de nuestra lejanía geográfica.</p>
+        </div>
+    </header>
+
+    <section class="py-12 max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded shadow border-t-4 border-blue-500">
+            <h3 class="font-bold text-lg mb-2 color-primario">Conectividad Territorial</h3>
+            <p class="text-sm text-gray-600">Defienden el descuento del 75% en transporte para residentes. Esto compensa nuestra situación de insularidad y facilita el movimiento entre islas y la península.</p>
+        </div>
+        <div class="bg-white p-6 rounded shadow border-t-4 border-yellow-400">
+            <h3 class="font-bold text-lg mb-2 color-primario">El Régimen Económico (REF)</h3>
+            <p class="text-sm text-gray-600">Es una ley especial que protege la economía de las islas. Su objetivo es que el coste de la vida en Canarias sea similar al del resto del Estado.</p>
+        </div>
+        <div class="bg-white p-6 rounded shadow border-t-4 border-blue-300">
+            <h3 class="font-bold text-lg mb-2 color-primario">Autonomía de Decisión</h3>
+            <p class="text-sm text-gray-600">Al no depender de sedes centrales en Madrid (como los partidos nacionales), sus representantes votan pensando únicamente en los intereses locales.</p>
+        </div>
+    </section>
+
+    <section class="py-12 bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <h3 class="text-2xl font-bold text-center mb-8">Evolución del Presupuesto Público</h3>
+            <div class="bg-gray-50 p-6 rounded">
+                <canvas id="graficaPresupuesto"></canvas>
+            </div>
+            <div class="mt-6 p-4 bg-blue-50 border-l-4 border-blue-600">
+                <p class="text-sm text-gray-700">
+                    <strong>Análisis:</strong> Los datos muestran un incremento constante en los fondos destinados a Canarias. En 2026 se ha alcanzado la cifra más alta para financiar servicios básicos como educación y sanidad.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 bg-gray-100">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h3 class="text-2xl font-bold mb-6">Actividad en el Congreso de los Diputados</h3>
+            <div class="aspect-video rounded shadow-lg overflow-hidden bg-black">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/xbH0v2NsMA8" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-8 text-center text-gray-400 text-xs border-t">
+        <p>Asignatura: Geografía Humana y Política - Trabajo de Clase</p>
+    </footer>
+
+    <script>
+        const ctx = document.getElementById('graficaPresupuesto').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['2023', '2024', '2025', '2026'],
+                datasets: [{
+                    label: 'Millones de euros gestionados',
+                    data: [10100, 11300, 12000, 13155],
+                    backgroundColor: '#0055a4',
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } }
+            }
+        });
+    </script>
+</body>
+</html>
