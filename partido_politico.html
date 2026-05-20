@@ -303,6 +303,49 @@
         }
         .comp-card strong { color: var(--negro); font-weight: 500; }
 
+        /* NUEVOS RETOS GEOGRÁFICOS (PUNTOS PARA EL 10) */
+        .retos-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .reto-card {
+            background: white;
+            border: 1px solid var(--gris-2);
+            border-radius: 12px;
+            padding: 2.2rem 1.8rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .reto-top h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--negro);
+            margin: 0.75rem 0;
+            line-height: 1.3;
+        }
+        .reto-top p {
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--gris-texto);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        .badge-concepto {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 4px 10px;
+            border-radius: 4px;
+            align-self: flex-start;
+        }
+        .badge-concepto.blue { background: #eef5ff; color: var(--azul); }
+        .badge-concepto.yellow { background: var(--amarillo-suave); color: #9c8000; }
+        .badge-concepto.green { background: #e8f7ee; color: #1e7e43; }
+
         /* VIDEO */
         .video-bg { background: var(--gris-2); }
         .video-wrap {
@@ -324,6 +367,9 @@
         }
 
         /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .retos-grid { grid-template-columns: 1fr; }
+        }
         @media (max-width: 768px) {
             nav { padding: 0 1.5rem; }
             .hero { padding: 4rem 1.5rem 3rem; }
@@ -346,7 +392,6 @@
     <!-- HERO -->
     <header class="hero">
         <div class="hero-inner">
-            <span class="hero-label">Trabajo de clase</span>
             <h1>Defensa del<br><em>Archipiélago Canario</em></h1>
             <p>Coalición Canaria es una formación política que centra su actividad exclusivamente en las ocho islas, buscando soluciones a los problemas derivados de nuestra lejanía geográfica.</p>
             <div class="hero-stats">
@@ -371,7 +416,7 @@
         <div class="container">
             <span class="section-eyebrow">Programa político</span>
             <h2 class="section-title">Tres pilares fundamentales</h2>
-            <p class="section-lead">Los ejes que estructuran la defensa de los intereses canarios ante el resto del Estado.</p>
+            <p class="section-lead">Los ejes que estructuran la defense de los intereses canarios ante el resto del Estado.</p>
             <div class="pilares-grid">
                 <div class="pilar a1">
                     <span class="pilar-num">01</span>
@@ -461,6 +506,47 @@
         </div>
     </section>
 
+    <!-- NUEVA SECCIÓN DE EXCELENCIA: GRANDES RETOS GEOGRÁFICOS (PUNTOS 1, 2 Y 3) -->
+    <section style="background: var(--blanco);">
+        <div class="container">
+            <span class="section-eyebrow">Análisis Geográfico Avanzado</span>
+            <h2 class="section-title">Grandes retos territoriales</h2>
+            <p class="section-lead">Puntos clave de la geografía humana y política actual de las islas que centran la estrategia del partido.</p>
+            
+            <div class="retos-grid">
+                <!-- Punto 1: Reto Demográfico -->
+                <div class="reto-card">
+                    <div class="reto-top">
+                        <span style="font-size: 1.5rem;">👥</span>
+                        <h3>1. El Crecimiento Demográfico</h3>
+                        <p>El aumento acelerado de población tensiona un espacio limitado. El partido propone estudiar leyes de residencia para regular la compra de casas por extranjeros no residentes y equilibrar la población.</p>
+                    </div>
+                    <span class="badge-concepto blue">Capacidad de carga territorial</span>
+                </div>
+
+                <!-- Punto 2: Crisis de la Vivienda -->
+                <div class="reto-card">
+                    <div class="reto-top">
+                        <span style="font-size: 1.5rem;">🏡</span>
+                        <h3>2. Vivienda y Modelo Turístico</h3>
+                        <p>El boom del turismo y las viviendas vacacionales dificulta el acceso al hogar para los jóvenes. CC apuesta por establecer límites estrictos al alquiler turístico para frenar la subida extrema de precios.</p>
+                    </div>
+                    <span class="badge-concepto yellow">Efectos de la Turistificación</span>
+                </div>
+
+                <!-- Punto 3: Gestión Migratoria -->
+                <div class="reto-card">
+                    <div class="reto-top">
+                        <span style="font-size: 1.5rem;">🌍</span>
+                        <h3>3. Frontera Geopolítica</h3>
+                        <p>Por su cercanía al continente africano, Canarias sufre intensamente los flujos de la Ruta Atlántica. El partido demanda continuamente al Estado y a Europa recursos obligatorios de acogida humanitaria.</p>
+                    </div>
+                    <span class="badge-concepto green">Flujos Migratorios y Fronteras</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- VIDEO -->
     <section class="video-bg">
         <div class="container">
@@ -476,6 +562,7 @@
         <p>Asignatura: Geografía Humana y Política — Trabajo de clase · 3.º ESO</p>
     </footer>
 
+    <!-- SCRIPT DE CHART.JS -->
     <script>
         const ctx = document.getElementById('graficaPresupuesto').getContext('2d');
         new Chart(ctx, {
