@@ -3,134 +3,479 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trabajo Geografía: Coalición Canaria</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Coalición Canaria — Trabajo de Geografía</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .color-primario { color: #0055a4; }
-        .bg-primario { background-color: #0055a4; }
-        .borde-canario { border-color: #ffed00; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --azul: #0044a3;
+            --azul-oscuro: #002e75;
+            --amarillo: #f5d800;
+            --amarillo-suave: #fffbe6;
+            --blanco: #ffffff;
+            --gris-1: #f7f6f2;
+            --gris-2: #eceae3;
+            --gris-texto: #4a4a4a;
+            --gris-claro: #888;
+            --negro: #111111;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--gris-1);
+            color: var(--negro);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        /* NAV */
+        nav {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--azul-oscuro);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 3rem; height: 60px;
+        }
+        nav .logo {
+            font-family: 'Playfair Display', serif;
+            color: var(--amarillo);
+            font-size: 1rem;
+            letter-spacing: 0.01em;
+        }
+        nav .badge {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 2px;
+        }
+
+        /* HERO */
+        .hero {
+            background: var(--azul-oscuro);
+            color: white;
+            padding: 6rem 3rem 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: repeating-linear-gradient(
+                -45deg,
+                transparent,
+                transparent 40px,
+                rgba(255,255,255,0.018) 40px,
+                rgba(255,255,255,0.018) 41px
+            );
+        }
+        .hero-inner {
+            max-width: 860px; margin: 0 auto; position: relative;
+        }
+        .hero-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--amarillo);
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 5px 14px;
+            border: 1px solid rgba(245,216,0,0.35);
+            border-radius: 2px;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.4rem, 5vw, 4rem);
+            line-height: 1.1;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            max-width: 700px;
+        }
+        .hero h1 em {
+            font-style: italic;
+            color: var(--amarillo);
+        }
+        .hero p {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.75);
+            max-width: 560px;
+            line-height: 1.8;
+        }
+        .hero-stats {
+            display: flex; gap: 3rem;
+            margin-top: 3.5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .stat-item .num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--amarillo);
+            display: block;
+        }
+        .stat-item .lbl {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.45);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* SECCIONES GENERALES */
+        section { padding: 5rem 3rem; }
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        .section-eyebrow {
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--azul);
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 700;
+            color: var(--negro);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        .section-lead {
+            font-size: 1rem;
+            font-weight: 300;
+            color: var(--gris-texto);
+            max-width: 560px;
+            margin-bottom: 3rem;
+        }
+
+        /* PILARES */
+        .pilares-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5px;
+            background: var(--gris-2);
+            border: 1.5px solid var(--gris-2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .pilar {
+            background: white;
+            padding: 2.5rem 2rem;
+            position: relative;
+        }
+        .pilar-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--gris-2);
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        .pilar h3 {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--azul);
+            margin-bottom: 0.75rem;
+        }
+        .pilar p {
+            font-size: 0.875rem;
+            font-weight: 300;
+            color: var(--gris-texto);
+            line-height: 1.75;
+        }
+        .pilar::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+        }
+        .pilar.a1::after { background: var(--azul); }
+        .pilar.a2::after { background: var(--amarillo); }
+        .pilar.a3::after { background: #c0d8f7; }
+
+        /* HISTORIA */
+        .historia-bg {
+            background: var(--azul-oscuro);
+            color: white;
+        }
+        .historia-bg .section-title { color: white; }
+        .historia-bg .section-lead { color: rgba(255,255,255,0.6); }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .tcard {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 2rem;
+        }
+        .tcard.wide { grid-column: span 2; }
+        .tcard h4 {
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--amarillo);
+            margin-bottom: 1rem;
+        }
+        .tcard p, .tcard li {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.72);
+            line-height: 1.8;
+        }
+        .tcard strong { color: white; font-weight: 500; }
+        .tcard ul { padding-left: 1.25rem; }
+        .tcard li { margin-bottom: 0.4rem; }
+
+        /* PRESUPUESTO */
+        .pres-bg { background: white; }
+        .chart-wrap {
+            background: var(--gris-1);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        .analysis-box {
+            margin-top: 1.5rem;
+            padding: 1.25rem 1.5rem;
+            border-left: 3px solid var(--azul);
+            background: #eef5ff;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.875rem;
+            color: var(--gris-texto);
+        }
+        .analysis-box strong { color: var(--azul); }
+
+        /* COMPROMISOS */
+        .comp-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .comp-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem 1.75rem;
+            border: 1px solid var(--gris-2);
+            position: relative;
+            overflow: hidden;
+        }
+        .comp-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+        }
+        .comp-card.c1::before { background: var(--azul); }
+        .comp-card.c2::before { background: var(--amarillo); }
+        .comp-card.c3::before { background: #5ba8f5; }
+        .comp-icon {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .comp-card h4 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.75rem;
+        }
+        .comp-card p {
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--gris-texto);
+            line-height: 1.75;
+        }
+        .comp-card strong { color: var(--negro); font-weight: 500; }
+
+        /* VIDEO */
+        .video-bg { background: var(--gris-2); }
+        .video-wrap {
+            aspect-ratio: 16/9;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+        .video-wrap iframe { width: 100%; height: 100%; display: block; }
+
+        /* FOOTER */
+        footer {
+            background: var(--negro);
+            color: rgba(255,255,255,0.3);
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            nav { padding: 0 1.5rem; }
+            .hero { padding: 4rem 1.5rem 3rem; }
+            section { padding: 3.5rem 1.5rem; }
+            .pilares-grid { grid-template-columns: 1fr; }
+            .timeline { grid-template-columns: 1fr; }
+            .tcard.wide { grid-column: span 1; }
+            .comp-grid { grid-template-columns: 1fr; }
+            .hero-stats { gap: 1.5rem; }
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans">
+<body>
 
-    <!-- BARRA DE NAVEGACIÓN -->
-    <nav class="bg-white shadow-sm p-4 sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold color-primario">Proyecto de Geografía: Coalición Canaria</h1>
-            <span class="text-xs font-semibold bg-gray-200 px-3 py-1 rounded text-gray-600">CURSO 3 ESO</span>
-        </div>
+    <nav>
+        <span class="logo">Coalición Canaria</span>
+        <span class="badge">3.º ESO — Geografía</span>
     </nav>
 
-    <!-- CABECERA -->
-    <header class="bg-primario text-white py-16 px-4 text-center">
-        <div class="max-w-3xl mx-auto">
-            <h2 class="text-3xl font-bold mb-4">Defensa del Archipiélago Canario</h2>
-            <p class="text-lg opacity-90">Coalición Canaria es una formación política que centra su actividad exclusivamente en las ocho islas, buscando soluciones a los problemas derivados de nuestra lejanía geográfica.</p>
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-inner">
+            <span class="hero-label">Trabajo de clase</span>
+            <h1>Defensa del<br><em>Archipiélago Canario</em></h1>
+            <p>Coalición Canaria es una formación política que centra su actividad exclusivamente en las ocho islas, buscando soluciones a los problemas derivados de nuestra lejanía geográfica.</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="num">1993</span>
+                    <span class="lbl">Año de fundación</span>
+                </div>
+                <div class="stat-item">
+                    <span class="num">8</span>
+                    <span class="lbl">Islas representadas</span>
+                </div>
+                <div class="stat-item">
+                    <span class="num">5</span>
+                    <span class="lbl">Partidos fundadores</span>
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- SECCIÓN: PILARES POLÍTICOS -->
-    <section class="py-12 max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-8">
-        <div class="bg-white p-6 rounded shadow border-t-4 border-blue-500">
-            <h3 class="font-bold text-lg mb-2 color-primario">Conectividad Territorial</h3>
-            <p class="text-sm text-gray-600">Defienden el descuento del 75% en transporte para residentes. Esto compensa nuestra situación de insularidad y facilita el movimiento entre islas y la península.</p>
-        </div>
-        <div class="bg-white p-6 rounded shadow border-t-4 border-yellow-400">
-            <h3 class="font-bold text-lg mb-2 color-primario">El Régimen Económico (REF)</h3>
-            <p class="text-sm text-gray-600">Es una ley especial que protege la economía de las islas. Su objetivo es que el coste de la vida en Canarias sea similar al del resto del Estado.</p>
-        </div>
-        <div class="bg-white p-6 rounded shadow border-t-4 border-blue-300">
-            <h3 class="font-bold text-lg mb-2 color-primario">Autonomía de Decisión</h3>
-            <p class="text-sm text-gray-600">Al no depender de sedes centrales en Madrid (como los partidos nacionales), sus representantes votan pensando únicamente en los intereses locales.</p>
+    <!-- PILARES -->
+    <section style="background: var(--gris-1);">
+        <div class="container">
+            <span class="section-eyebrow">Programa político</span>
+            <h2 class="section-title">Tres pilares fundamentales</h2>
+            <p class="section-lead">Los ejes que estructuran la defensa de los intereses canarios ante el resto del Estado.</p>
+            <div class="pilares-grid">
+                <div class="pilar a1">
+                    <span class="pilar-num">01</span>
+                    <h3>Conectividad Territorial</h3>
+                    <p>Defienden el descuento del 75% en transporte para residentes. Esto compensa nuestra situación de insularidad y facilita el movimiento entre islas y la península.</p>
+                </div>
+                <div class="pilar a2">
+                    <span class="pilar-num">02</span>
+                    <h3>El Régimen Económico (REF)</h3>
+                    <p>Es una ley especial que protege la economía de las islas. Su objetivo es que el coste de la vida en Canarias sea similar al del resto del Estado.</p>
+                </div>
+                <div class="pilar a3">
+                    <span class="pilar-num">03</span>
+                    <h3>Autonomía de Decisión</h3>
+                    <p>Al no depender de sedes centrales en Madrid, sus representantes votan pensando únicamente en los intereses locales.</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- NUEVA SECCIÓN: HISTORIA Y FUNDACIÓN -->
-    <section class="py-12 bg-gray-100 border-t border-b">
-        <div class="max-w-4xl mx-auto px-4">
-            <h3 class="text-2xl font-bold text-center mb-8 color-primario">Orígenes y Fundación del Partido</h3>
-            
-            <div class="grid md:grid-cols-2 gap-6 text-sm text-gray-700">
-                <div class="bg-white p-6 rounded shadow">
-                    <h4 class="font-bold text-base mb-2 text-gray-900">¿Quién y cuándo lo fundó?</h4>
-                    <p>Coalición Canaria (CC) se fundó oficialmente el <strong>23 de febrero de 1993</strong>. No nació bajo el liderazgo de una sola persona, sino como una confederación de <strong>cinco partidos nacionalistas, regionalistas y centristas</strong> de diferentes islas (AIC, Ican, CCN, AM y el Centro Canario Independiente).</p>
+    <!-- HISTORIA -->
+    <section class="historia-bg">
+        <div class="container">
+            <span class="section-eyebrow" style="color: var(--amarillo);">Historia</span>
+            <h2 class="section-title">Orígenes y fundación del partido</h2>
+            <p class="section-lead">Cómo nació, quién lo impulsó y con qué propósito fue creado en 1993.</p>
+            <div class="timeline">
+                <div class="tcard">
+                    <h4>¿Quién y cuándo lo fundó?</h4>
+                    <p>Coalición Canaria se fundó el <strong>23 de febrero de 1993</strong>. No nació bajo el liderazgo de una sola persona, sino como una confederación de <strong>cinco partidos</strong> nacionalistas, regionalistas y centristas de diferentes islas (AIC, Ican, CCN, AM y el Centro Canario Independiente).</p>
                 </div>
-                
-                <div class="bg-white p-6 rounded shadow">
-                    <h4 class="font-bold text-base mb-2 text-gray-900">¿Cómo se fundó?</h4>
-                    <p>Se constituyó mediante la unión de diversas fuerzas políticas que anteriormente competían entre sí. El objetivo principal era superar el tradicional "pleito insular" (la rivalidad histórica entre islas) para unificar el voto nacionalista en un solo proyecto común.</p>
+                <div class="tcard">
+                    <h4>¿Cómo se fundó?</h4>
+                    <p>Se constituyó mediante la unión de diversas fuerzas políticas que anteriormente competían entre sí. El objetivo era superar el <strong>"pleito insular"</strong> —la rivalidad histórica entre islas— para unificar el voto nacionalista en un único proyecto común.</p>
                 </div>
-                
-                <div class="bg-white p-6 rounded shadow md:col-span-2">
-                    <h4 class="font-bold text-base mb-2 text-gray-900">¿Con qué finalidad se fundó?</h4>
-                    <p class="mb-2">La meta fundamental fue la <strong>defensa de los intereses socioeconómicos de las islas frente al centralismo del Estado español</strong>. Al agruparse, buscaban conseguir:</p>
-                    <ul class="list-disc pl-5 space-y-1 text-gray-600">
-                        <li>Garantizar el respeto institucional a las singularidades canarias debido a su lejanía y condición de región ultraperiférica.</li>
+                <div class="tcard wide">
+                    <h4>¿Con qué finalidad se fundó?</h4>
+                    <p style="margin-bottom: 1rem;">La meta fue la <strong>defensa de los intereses socioeconómicos de las islas frente al centralismo del Estado</strong>. Al agruparse, buscaban conseguir:</p>
+                    <ul>
+                        <li>Garantizar el respeto institucional a las singularidades canarias por su lejanía y condición de región ultraperiférica.</li>
                         <li>Lograr mayores cotas de autogobierno y asegurar un fuero económico y fiscal propio adaptado a la insularidad (el REF).</li>
-                        <li>Evitar que los partidos políticos de ámbito nacional tomaran decisiones sobre las islas desde Madrid sin conocer la realidad diaria del archipiélago.</li>
+                        <li>Evitar que los partidos nacionales tomaran decisiones sobre las islas desde Madrid sin conocer la realidad diaria del archipiélago.</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SECCIÓN: EVOLUCIÓN DEL PRESUPUESTO -->
-    <section class="py-12 bg-white">
-        <div class="max-w-4xl mx-auto px-4">
-            <h3 class="text-2xl font-bold text-center mb-8">Evolución del Presupuesto Público</h3>
-            <div class="bg-gray-50 p-6 rounded">
-                <canvas id="graficaPresupuesto"></canvas>
+    <!-- PRESUPUESTO -->
+    <section class="pres-bg">
+        <div class="container">
+            <span class="section-eyebrow">Datos económicos</span>
+            <h2 class="section-title">Evolución del presupuesto público</h2>
+            <p class="section-lead">Fondos gestionados por el Gobierno de Canarias entre 2023 y 2026, en millones de euros.</p>
+            <div class="chart-wrap">
+                <canvas id="graficaPresupuesto" style="max-height: 320px;"></canvas>
             </div>
-            <div class="mt-6 p-4 bg-blue-50 border-l-4 border-blue-600">
-                <p class="text-sm text-gray-700">
-                    <strong>Análisis:</strong> Los datos muestran un incremento constante en los fondos destinados a Canarias. En 2026 se ha alcanzado la cifra más alta para financiar servicios básicos como educación y sanidad.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- NUEVA SECCIÓN: COMPROMISOS ELECTORALES -->
-    <section class="py-12 bg-gray-50 border-t">
-        <div class="max-w-4xl mx-auto px-4">
-            <h3 class="text-2xl font-bold text-center mb-8 color-primario">¿Qué prometían en las elecciones de hace 4 años (2023)?</h3>
-            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-8 text-sm">
-                Para los comicios autonómicos de mayo de 2023, Coalición Canaria articuló su programa en torno a la recuperación económica post-pandemia, el reto demográfico y la protección del territorio isleño.
-            </p>
-            
-            <div class="grid md:grid-cols-3 gap-6 text-xs">
-                <div class="bg-white p-5 rounded shadow border-l-4 border-blue-500">
-                    <h4 class="font-bold text-sm text-blue-900 mb-2">💰 Alivio Fiscal</h4>
-                    <p class="text-gray-600 leading-relaxed">Prometieron una <strong>bajada selectiva de impuestos</strong> para aliviar la inflación, haciendo especial hincapié en la reducción del tipo general del IGIC del 7% al 5% para abaratar el coste de la vida.</p>
-                </div>
-                <div class="bg-white p-5 rounded shadow border-l-4 border-yellow-400">
-                    <h4 class="font-bold text-sm text-blue-900 mb-2">🛑 Equilibrio Demográfico</h4>
-                    <p class="text-gray-600 leading-relaxed">Propusieron poner freno al crecimiento poblacional desmedido y regular la crisis de la vivienda a través de límites a la compra de inmuebles por extranjeros no residentes y un control firme del alquiler vacacional.</p>
-                </div>
-                <div class="bg-white p-5 rounded shadow border-l-4 border-blue-300">
-                    <h4 class="font-bold text-sm text-blue-900 mb-2">🩺 Sanidad Pública</h4>
-                    <p class="text-gray-600 leading-relaxed">Se comprometieron a activar un plan de choque urgente para <strong>reducir las listas de espera</strong> en los hospitales públicos del Servicio Canario de la Salud y agilizar la gestión de las ayudas a la dependencia.</p>
-                </div>
+            <div class="analysis-box">
+                <strong>Análisis:</strong> Los datos muestran un incremento constante en los fondos destinados a Canarias. En 2026 se ha alcanzado la cifra más alta para financiar servicios básicos como educación y sanidad.
             </div>
         </div>
     </section>
 
-    <!-- SECCIÓN: VIDEO CONGRESO -->
-    <section class="py-12 bg-gray-100">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <h3 class="text-2xl font-bold mb-6">Actividad en el Congreso de los Diputados</h3>
-            <div class="aspect-video rounded shadow-lg overflow-hidden bg-black">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/xbH0v2NsMA8" frameborder="0" allowfullscreen></iframe>
+    <!-- COMPROMISOS -->
+    <section style="background: var(--gris-1);">
+        <div class="container">
+            <span class="section-eyebrow">Elecciones 2023</span>
+            <h2 class="section-title">¿Qué prometían hace cuatro años?</h2>
+            <p class="section-lead">Para los comicios autonómicos de mayo de 2023, el programa articuló tres grandes ejes: economía, demografía y sanidad.</p>
+            <div class="comp-grid">
+                <div class="comp-card c1">
+                    <span class="comp-icon">💰</span>
+                    <h4>Alivio fiscal</h4>
+                    <p>Prometieron una <strong>bajada selectiva de impuestos</strong> para aliviar la inflación, con especial hincapié en la reducción del tipo general del IGIC del 7% al 5% para abaratar el coste de la vida.</p>
+                </div>
+                <div class="comp-card c2">
+                    <span class="comp-icon">🛑</span>
+                    <h4>Equilibrio demográfico</h4>
+                    <p>Propusieron regular la crisis de la vivienda a través de <strong>límites a la compra de inmuebles</strong> por extranjeros no residentes y un control firme del alquiler vacacional.</p>
+                </div>
+                <div class="comp-card c3">
+                    <span class="comp-icon">🩺</span>
+                    <h4>Sanidad pública</h4>
+                    <p>Se comprometieron a activar un <strong>plan de choque urgente</strong> para reducir las listas de espera en los hospitales del Servicio Canario de la Salud y agilizar la gestión de las ayudas a la dependencia.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- PIE DE PÁGINA -->
-    <footer class="py-8 text-center text-gray-400 text-xs border-t bg-white">
-        <p>Asignatura: Geografía Humana y Política - Trabajo de Clase</p>
+    <!-- VIDEO -->
+    <section class="video-bg">
+        <div class="container">
+            <span class="section-eyebrow">Actividad parlamentaria</span>
+            <h2 class="section-title" style="margin-bottom: 2rem;">En el Congreso de los Diputados</h2>
+            <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/xbH0v2NsMA8" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Asignatura: Geografía Humana y Política — Trabajo de clase · 3.º ESO</p>
     </footer>
 
-    <!-- SCRIPT DE CHART.JS -->
     <script>
         const ctx = document.getElementById('graficaPresupuesto').getContext('2d');
         new Chart(ctx, {
@@ -138,15 +483,43 @@
             data: {
                 labels: ['2023', '2024', '2025', '2026'],
                 datasets: [{
-                    label: 'Millones de euros gestionados',
+                    label: 'Millones de euros',
                     data: [10100, 11300, 12000, 13155],
-                    backgroundColor: '#0055a4',
-                    borderWidth: 0
+                    backgroundColor: ['#b8d0f5', '#7aaef0', '#3b7de0', '#0044a3'],
+                    borderWidth: 0,
+                    borderRadius: 6,
+                    borderSkipped: false,
                 }]
             },
             options: {
                 responsive: true,
-                plugins: { legend: { display: false } }
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => ' ' + ctx.parsed.y.toLocaleString('es-ES') + ' M€'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: { color: 'rgba(0,0,0,0.05)' },
+                        ticks: {
+                            font: { family: 'DM Sans', size: 12 },
+                            color: '#888',
+                            callback: v => v.toLocaleString('es-ES') + ' M'
+                        },
+                        border: { display: false }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: {
+                            font: { family: 'DM Sans', size: 13, weight: '500' },
+                            color: '#333'
+                        },
+                        border: { display: false }
+                    }
+                }
             }
         });
     </script>
